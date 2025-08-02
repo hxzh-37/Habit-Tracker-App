@@ -1,43 +1,61 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
+import { Tabs } from "expo-router";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
+        headerStyle: { backgroundColor: "#f5f5f5" },
+        headerShadowVisible: false,
+        tabBarStyle: {
+          backgroundColor: "#f5f5f5",
+          borderTopWidth: 0,
+          elevation: 0,
+          shadowOpacity: 0,
+        },
+        tabBarActiveTintColor: "#1868DB",
+        tabBarInactiveTintColor: "#999", // fixed unreadable #F8F8F8 on white
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: "Habit Board",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="calendar-today" size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="streaks"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: "Streaks",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="chart-line" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="add-habit"
+        options={{
+          title: "Add Habit",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="plus-circle" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="login"
+        options={{
+          title: "Login",
+          tabBarIcon: ({ color, focused }) =>
+            focused ? (
+              <FontAwesome5 name="user-lock" size={24} color={color} />
+            ) : (
+              <AntDesign name="login" size={24} color={color} />
+            ),
         }}
       />
     </Tabs>
